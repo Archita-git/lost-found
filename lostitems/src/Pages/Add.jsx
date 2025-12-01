@@ -1,11 +1,10 @@
 import React, { useState, useContext, useRef } from "react";
 import "./Add.css";
 import { ItemContext } from "../Context/ItemContext";
-
-
+import { API_BASE } from "../api";
 
 const Add = () => {
-  const { handleadd, itemcon } = useContext(ItemContext);
+  const { itemcon } = useContext(ItemContext);
 
   const fileInputRef = useRef(null);
 
@@ -17,9 +16,10 @@ const Add = () => {
     email: "",
     date: "",
     image: "",
-    status:"Lost",
+    status: "Lost",
   });
 
+  // ---------------- IMAGE HANDLING ----------------
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
@@ -32,24 +32,51 @@ const Add = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  // ---------------- SUBMIT TO BACKEND ----------------
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("You must be logged in to add an item!");
+      return;
+    }
+
+    // Convert fields → backend schema
     const newEntry = {
-      id: Date.now(),
       name: newItem.name,
       category: newItem.category,
       location: newItem.location,
       contact: newItem.contact,
       email: newItem.email,
       date: newItem.date,
-      image: newItem.image || "/default.jpg",
+      image_url: newItem.image || "/default.jpg",   // IMPORTANT
       status: newItem.status,
     };
 
-    handleadd(newEntry);
-    alert("✅ Item added successfully!");
+    try {
+      const res = await fetch(`${API_BASE}/items/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newEntry),
+      });
 
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("✅ Item added successfully!");
+      } else {
+        alert(data.detail || "Failed to add item");
+      }
+    } catch (error) {
+      alert("Error reaching server.");
+    }
+
+    // Reset form fields
     setNewItem({
       name: "",
       category: "",
@@ -58,7 +85,7 @@ const Add = () => {
       email: "",
       date: "",
       image: "",
-      status:"Lost"
+      status: "Lost",
     });
   };
 
@@ -69,33 +96,32 @@ const Add = () => {
         Please provide as much detail as possible to help with identification.
       </p>
 
-
-<div className="radiobox">
-          <label className="radiobtn">
-          <input type="radio"
-          name="status"
-          value="Lost"
-          checked={newItem.status==="Lost"}
-          onChange={(e)=> setNewItem({...newItem,status:e.target.value})}
+      {/* LOST / FOUND radio */}
+      <div className="radiobox">
+        <label className="radiobtn">
+          <input
+            type="radio"
+            name="status"
+            value="Lost"
+            checked={newItem.status === "Lost"}
+            onChange={(e) => setNewItem({ ...newItem, status: e.target.value })}
           />
           <span>LOST</span>
-         </label>
+        </label>
 
-          <label className="radiobtn">
-          <input type="radio"
-          name="status"
-          value="Found"
-          checked={newItem.status==="Found"}
-          onChange={(e)=> setNewItem({...newItem,status:e.target.value})}
+        <label className="radiobtn">
+          <input
+            type="radio"
+            name="status"
+            value="Found"
+            checked={newItem.status === "Found"}
+            onChange={(e) => setNewItem({ ...newItem, status: e.target.value })}
           />
           <span>FOUND</span>
-         </label>
-         </div>
+        </label>
+      </div>
 
-
-
-
-
+      {/* FORM */}
       <form className="add-form" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -106,19 +132,17 @@ const Add = () => {
         />
 
         <select
-  value={newItem.category}
-  onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
-  required
->
-  <option value="">Select Category</option>
-  {itemcon.map((cat) => (
-    <option key={cat.category} value={cat.category}>
-      {cat.category}
-    </option>
-  ))}
-</select>
-
-
+          value={newItem.category}
+          onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+          required
+        >
+          <option value="">Select Category</option>
+          {itemcon.map((cat) => (
+            <option key={cat.category} value={cat.category}>
+              {cat.category}
+            </option>
+          ))}
+        </select>
 
         <input
           type="text"
@@ -147,6 +171,7 @@ const Add = () => {
           onChange={(e) => setNewItem({ ...newItem, date: e.target.value })}
         />
 
+        {/* IMAGE UPLOAD */}
         <div className="image-upload">
           <button type="button" onClick={handleImageClick}>
             Upload Image
@@ -173,4 +198,3 @@ const Add = () => {
 };
 
 export default Add;
-
