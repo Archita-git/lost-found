@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import "./CategoryItem.css";
+import "./CategoryItemsPage.css";
 import { ItemContext } from "../Context/ItemContext";
 
 const CategoryItems = ({ category, goBack }) => {

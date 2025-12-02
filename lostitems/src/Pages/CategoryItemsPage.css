@@ -1,10 +1,12 @@
+/* 🔒 SCOPE EVERYTHING TO THIS PAGE */
 .category-items-page {
   width: 85%;
   margin: 50px auto;
   font-family: "Poppins", sans-serif;
 }
 
-.back-btn {
+/* ---------------- BACK BUTTON ---------------- */
+.category-items-page .back-btn {
   background: transparent;
   border: none;
   color: #007bff;
@@ -13,22 +15,24 @@
   margin-bottom: 10px;
 }
 
-.cat-items-title {
+/* ---------------- TITLE & COUNT ---------------- */
+.category-items-page .cat-items-title {
   font-size: 30px;
   color: #222;
   font-weight: 700;
 }
 
-.cat-items-count {
+.category-items-page .cat-items-count {
   color: gray;
   margin-bottom: 20px;
 }
 
-.filters {
+/* ---------------- FILTERS ---------------- */
+.category-items-page .filters {
   margin-bottom: 25px;
 }
 
-.filters select {
+.category-items-page .filters select {
   padding: 10px 15px;
   border-radius: 10px;
   border: 1px solid #007bff;
@@ -38,13 +42,15 @@
   cursor: pointer;
 }
 
-.category-items-list {
+/* ---------------- LIST LAYOUT ---------------- */
+.category-items-page .category-items-list {
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
 
-.item-row {
+/* ---------------- ITEM CARD ---------------- */
+.category-items-page .item-row {
   border: 1px solid #e0e0e0;
   padding: 20px;
   border-radius: 20px;
@@ -53,19 +59,21 @@
   transition: 0.3s;
 }
 
-.item-row.disabled {
+.category-items-page .item-row.disabled {
   opacity: 0.6;
   pointer-events: none;
   background: #f8f8f8;
 }
 
-.item-header {
+/* ---------------- HEADER ---------------- */
+.category-items-page .item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.status-tag {
+/* ---------------- STATUS TAGS ---------------- */
+.category-items-page .status-tag {
   padding: 5px 12px;
   border-radius: 12px;
   font-size: 14px;
@@ -73,22 +81,23 @@
   text-transform: uppercase;
 }
 
-.status-tag.lost {
+.category-items-page .status-tag.lost {
   background: #ffe6e6;
   color: #cc0000;
 }
 
-.status-tag.found {
+.category-items-page .status-tag.found {
   background: #e6f7ff;
   color: #007acc;
 }
 
-.status-tag.resolved {
+.category-items-page .status-tag.resolved {
   background: #e6ffe6;
   color: #009900;
 }
 
-.mark-btn {
+/* ---------------- BUTTON ---------------- */
+.category-items-page .mark-btn {
   background: #007bff;
   color: white;
   border: none;
@@ -98,44 +107,45 @@
   transition: 0.3s;
 }
 
-.mark-btn:hover {
+.category-items-page .mark-btn:hover {
   background: #0056b3;
 }
 
-.mark-btn:disabled {
+.category-items-page .mark-btn:disabled {
   background: #aaa;
   cursor: not-allowed;
 }
 
-.item-body {
+/* ---------------- BODY ---------------- */
+.category-items-page .item-body {
   display: flex;
   gap: 20px;
   margin-top: 10px;
 }
 
-.item-body img {
+.category-items-page .item-body img {
   width: 150px;
   height: 120px;
   object-fit: cover;
   border-radius: 10px;
 }
 
-.item-details {
+.category-items-page .item-details {
   flex: 1;
 }
 
-.item-desc {
+.category-items-page .item-desc {
   color: #555;
   margin: 5px 0;
 }
 
-.item-location,
-.item-time {
+.category-items-page .item-location,
+.category-items-page .item-time {
   color: #777;
   font-size: 14px;
 }
 
-.contact-info {
+.category-items-page .contact-info {
   margin-top: 8px;
   color: #333;
 }

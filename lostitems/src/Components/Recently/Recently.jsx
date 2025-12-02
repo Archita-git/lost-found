@@ -1,56 +1,74 @@
-import React, {useContext} from 'react'
-import './Recently.css'
-import {ItemContext} from '../../Context/ItemContext';
-import { Link } from 'react-router-dom';
+console.log("THIS IS THE NEW RECENTLY FILE");
+
+import React, { useEffect, useState } from "react";
+import "./Recently.css";
+import { API_BASE } from "../../api";
+import { Link } from "react-router-dom";
 
 const Recently = () => {
+  const [recent, setRecent] = useState([]);
 
-    const {itemcon}=useContext(ItemContext);//extract all stored category-data n items from global Context
-    const allitems=itemcon.flatMap(cat=>cat.items);//goes through every category and pulls out every item.
-    const sorted=[...allitems].sort((a,b)=>Number(b.id)-Number(a.id));
-    const recent3=sorted.slice(0,3);
+  // Fetch the latest 3 items from backend
+  const fetchRecent = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/items/`);
+      const data = await res.json();
+
+      if (res.ok) {
+        const sorted = data.sort((a, b) => b.id - a.id); // newest first
+        setRecent(sorted.slice(0, 3)); // take top 3
+      } else {
+        setRecent([]);
+      }
+    } catch (error) {
+      console.error("Error fetching recent items", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecent();
+  }, []);
 
   return (
-   <>
-   <div className="recentlyposted">
-    <div className="recentlytop">
-    <div className="recentlyleft">
-    <h1>Recently Posted</h1>
-    <p>help reunite these items with their owners</p>
-    </div>
-    <Link to='/category'>
-    <button className='viewmore'>view more</button></Link>
-    </div>
+    <div className="recently-section">
+      <div className="recently-header">
+        <div>
+          <h2>Recently Posted</h2>
+          <p>See the latest lost & found items from campus.</p>
+        </div>
 
+        <Link to="/items">
+          <button className="recent-btn">View All</button>
+        </Link>
+      </div>
 
-    <div className="recentlybottom">
-        
-        {recent3.length>0 ?(
-        recent3.map((p)=>(
-            
-            <div className="itemcard" key={p.id}>
-        
-                <img src={p.image || 'https://via.placeholder.com/200x150'} alt=""/>
-                <div className="imginfo">
-                <h3>{p.name}</h3>
-                <p className='category'>{p.category}</p>
-                <p className='location'>{p.location}</p>
-                <p className='contact'>Contact: {p.contact}</p>
-                <p className='email'>Email: {p.email}</p>
-                <p className='date'>Date: {p.date}</p>
-                <Link to='/category'>
-                <button>VIEW DETAILS</button></Link>
-            </div></div>
-        ))
-    ):(<p className='noitems'>no recent items</p>
+      <div className="recent-grid">
+        {recent.length > 0 ? (
+          recent.map((item) => (
+            <div className="recent-card" key={item.id}>
+              <img
+                src={item.image_url || "/default.jpg"}
+                alt={item.name}
+                className="recent-img"
+              />
 
+              <div className="recent-info">
+                <h3>{item.name}</h3>
+                <p className="recent-category">{item.category}</p>
+                <p className="recent-date">{item.date}</p>
+
+                <Link to="/items">
+                  <button className="details-btn">Details</button>
+                </Link>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="no-recent">No items found yet.</p>
         )}
+      </div>
     </div>
+  );
+};
 
-   </div>
-
-   </>
-  )
-}
-
-export default Recently
+export default Recently;
