@@ -4,6 +4,7 @@ import logo from "../../assets/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import gsap from "gsap";
 import { Menu, X } from "lucide-react";
+import {motion} from "framer-motion";
 
 const Navbar = () => {
   const [menu, setMenu] = useState("home");

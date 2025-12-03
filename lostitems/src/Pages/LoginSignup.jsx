@@ -16,11 +16,11 @@ const LoginSignup = () => {
 
   // ---------------- SIGNUP HANDLER ----------------
   const handleSignup = async () => {
-    const res = await fetch(`${API_BASE}/signup`, {
+    const res = await fetch(`${API_BASE}/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name,
+        username: name,
         email: signupEmail,
         password: signupPassword,
       }),
@@ -30,32 +30,32 @@ const LoginSignup = () => {
 
     if (res.ok) {
       alert("Signup Successful! You can now login.");
-      setIsLogin(true); // switch to login page
+      setIsLogin(true);
     } else {
       alert(data.detail || "Signup failed");
     }
   };
 
-  // ---------------- LOGIN HANDLER ----------------
+  // ---------------- LOGIN HANDLER (FIXED) ----------------
   const handleLogin = async () => {
-    const res = await fetch(`${API_BASE}/login`, {
+    const formData = new URLSearchParams();
+    formData.append("username", loginEmail); // MUST be "username"
+    formData.append("password", loginPassword);
+
+    const res = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: loginEmail,
-        password: loginPassword,
-      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData.toString(),
     });
 
     const data = await res.json();
 
-    if (data.access_token) {
+    if (res.ok && data.access_token) {
       localStorage.setItem("token", data.access_token);
       alert("Login Successful!");
-      // redirect to home page
       window.location.href = "/home";
     } else {
-      alert("Invalid email or password");
+      alert(data.detail || "Invalid email or password");
     }
   };
 
@@ -65,7 +65,6 @@ const LoginSignup = () => {
         <h1>{isLogin ? "LOGIN" : "SIGN UP"}</h1>
 
         <div className="fields">
-          {/* SIGNUP FORM */}
           {!isLogin && (
             <>
               <input
@@ -89,7 +88,6 @@ const LoginSignup = () => {
             </>
           )}
 
-          {/* LOGIN FORM */}
           {isLogin && (
             <>
               <input
@@ -108,7 +106,6 @@ const LoginSignup = () => {
           )}
         </div>
 
-        {/* BUTTON */}
         {!isLogin ? (
           <button className="continue" onClick={handleSignup}>
             Continue
@@ -119,7 +116,6 @@ const LoginSignup = () => {
           </button>
         )}
 
-        {/* Terms only for signup */}
         {!isLogin && (
           <div className="terms">
             <input type="checkbox" id="terms" />
@@ -129,7 +125,6 @@ const LoginSignup = () => {
           </div>
         )}
 
-        {/* SWITCH LOGIN ↔ SIGNUP */}
         <p className="abc">
           {isLogin ? (
             <>
