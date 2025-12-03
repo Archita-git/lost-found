@@ -9,7 +9,7 @@
     font-size: 60px;
     color: #4B2E2B; 
     margin-top: 150px;
-    line-height: 45px;
+    line-height: 42px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -43,17 +43,18 @@
     color: #4B2E2B;
 }
 
-.twobuttons{
+/*.twobuttons{
     display: flex;
     justify-content: center;
     gap:50px;
     margin-top: 70px;
 }
-
-.btn1{
+*/
+/*.btn1{
     height:40px;
     width:200px;
-    background: #7A4F3D; /* Mocha */
+    background: #7A4F3D; *//* Mocha */
+/*
     color: white;
     font-weight: 600;
     border: none;
@@ -61,13 +62,13 @@
 }
 
 .btn1:hover{
-    background-color: #C89F7A; /* Caramel */
+    background-color: #C89F7A;
 }
 
 .btn2{
     height:40px;
     width:200px;
-    background: #7A4F3D; /* Mocha */
+    background: #7A4F3D; 
     color: white;
     font-weight: 600;
     border: none;
@@ -75,9 +76,9 @@
 }
 
 .btn2:hover{
-    background-color: #E6C8A5; /* Light Caramel */
+    background-color: #E6C8A5; 
 }
-
+*/
 .heroboxdown{
     display: flex;
     flex-direction: column;
@@ -188,9 +189,9 @@
     width: 90%;
   }
 
-  .twobuttons {
+  /*.twobuttons {
     gap: 30px;
-  }
+  }*/
 
   .heroboxdown {
     width: 90%;
@@ -217,7 +218,7 @@
     width: 90%;
   }
 
-  .twobuttons {
+  /*.twobuttons {
     flex-direction:row;
     gap: 20px;
   }
@@ -225,6 +226,7 @@
 .btn1,.btn2{
     width:70%;
 }
+    */
 
   .heroboxdown {
     width: 90%;
@@ -265,10 +267,10 @@
     font-size: 16px;
   }
 
-  .btn1, .btn2 {
+  /*.btn1, .btn2 {
     height: 40px;
     width:100%;
-  }
+  }*/
 
   .heroboxdown {
     margin-top: 80px;
