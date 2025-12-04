@@ -1,13 +1,14 @@
 .category-page {
-  padding: 20px 40px;
+  padding: 130px 40px;
   text-align: center;
 }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
-  margin-top: 40px;
+  justify-content: center;
+  gap: 55px;
+  margin-top: 100px;
+  grid-template-columns: repeat(3, 1fr); /* Desktop default */
 }
 
 .category-card {
@@ -15,6 +16,8 @@
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  height: 200px;
+  width:90%;
 }
 
 .category-card img {
@@ -32,4 +35,48 @@
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
+}
+
+/* ---------- TABLETS (2 columns) ---------- */
+@media (max-width: 1000px) {
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- MOBILE (2 columns fixed) ---------- */
+@media (max-width: 600px) {
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .category-card img {
+    height: 160px;
+  }
+
+  .category-card {
+    padding: 10px;
+  }
+
+  .category-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+/* ---------- VERY SMALL PHONES ---------- */
+@media (max-width: 420px) {
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+
+  .category-card img {
+    height: 140px;
+  }
+
+  .category-card h3 {
+    font-size: 14px;
+  }
 }

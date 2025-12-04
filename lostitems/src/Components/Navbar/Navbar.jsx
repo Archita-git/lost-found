@@ -12,6 +12,18 @@ const Navbar = () => {
   const navRef = useRef(null);
   const location = useLocation();
 
+   // AUTO-CLOSE drawer when clicking an item
+  const handleMenuClick = (menuName) => {
+    setMenu(menuName);
+    setIsOpen(false);
+  };
+
+  
+  // AUTO-CLOSE when route changes (even via navigation)
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
+
   // ---------------- ACTIVE PAGE HIGHLIGHT ----------------
   useEffect(() => {
     if (location.state?.activeMenu) {
@@ -69,37 +81,37 @@ const Navbar = () => {
       <ul className={`nav-menu ${isOpen ? "open" : ""}`}>
 
         {/* HOME */}
-        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => setMenu("home")}>
+        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() =>  handleMenuClick("home")}>
           <Link to="/">HOME</Link>
           {menu === "home" && <hr />}
         </motion.li>
 
         {/* CATEGORY */}
-        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => setMenu("category")}>
+        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => handleMenuClick("category")}>
           <Link to="/category">CATEGORY</Link>
           {menu === "category" && <hr />}
         </motion.li>
 
         {/* ⭐ ITEMS (NEW PAGE) */}
-        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => setMenu("items")}>
+        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => handleMenuClick("items")}>
           <Link to="/items">ITEMS</Link>
           {menu === "items" && <hr />}
         </motion.li>
 
         {/* ADD */}
-        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => setMenu("add")}>
+        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => handleMenuClick("add")}>
           <Link to="/add">ADD</Link>
           {menu === "add" && <hr />}
         </motion.li>
 
         {/* CONTACT */}
-        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => setMenu("contact-us")}>
+        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => handleMenuClick("contact-us")}>
           <Link to="/contact-us">CONTACT US</Link>
           {menu === "contact-us" && <hr />}
         </motion.li>
 
         {/* ABOUT */}
-        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => setMenu("about")}>
+        <motion.li whileHover={{ scale: 1.1, y: -3 }} onClick={() => handleMenuClick("about")}>
           <Link to="/about">ABOUT</Link>
           {menu === "about" && <hr />}
         </motion.li>

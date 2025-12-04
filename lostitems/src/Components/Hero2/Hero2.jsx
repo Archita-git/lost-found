@@ -21,12 +21,12 @@ const Hero2 = () => {
          Our platform makes it easy for college students to find lost
           items and help others in their community..</p>
     </div>
-    <div className="twobuttons">
+    {/*<div className="twobuttons">
         <button className='btn1'>JOIN OUR COMMUNITY</button>
         <Link to="/category">
         <button className='btn2'>BROWSE LOST ITEMS</button>
         </Link>
-    </div>
+    </div>*/}
     </div>
 
     <div className="heroboxdown">
