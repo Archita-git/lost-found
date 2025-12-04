@@ -2,11 +2,14 @@ import React, { useState, useContext, useRef } from "react";
 import "./Add.css";
 import { ItemContext } from "../Context/ItemContext";
 import { API_BASE } from "../api";
+import { supabase } from "../supabaseClient"; // <-- IMPORTANT
 
 const Add = () => {
   const { itemcon } = useContext(ItemContext);
 
   const fileInputRef = useRef(null);
+
+  const [uploading, setUploading] = useState(false);
 
   const [newItem, setNewItem] = useState({
     name: "",
@@ -24,12 +27,35 @@ const Add = () => {
     fileInputRef.current.click();
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setNewItem({ ...newItem, image: imageUrl });
+    if (!file) return;
+
+    setUploading(true);
+
+    const fileName = `${Date.now()}-${file.name}`;
+
+    // Upload to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from("items-images") // bucket name
+      .upload(fileName, file);
+
+    if (error) {
+      console.error("Upload error:", error);
+      alert("Image upload failed!");
+      setUploading(false);
+      return;
     }
+
+    // Get the public URL
+    const { data: urlData } = supabase.storage
+      .from("items-images")
+      .getPublicUrl(fileName);
+
+    const publicUrl = urlData.publicUrl;
+
+    setNewItem({ ...newItem, image: publicUrl });
+    setUploading(false);
   };
 
   // ---------------- SUBMIT TO BACKEND ----------------
@@ -43,7 +69,6 @@ const Add = () => {
       return;
     }
 
-    // Convert fields → backend schema
     const newEntry = {
       name: newItem.name,
       category: newItem.category,
@@ -51,7 +76,7 @@ const Add = () => {
       contact: newItem.contact,
       email: newItem.email,
       date: newItem.date,
-      image_url: newItem.image || "/default.jpg",   // IMPORTANT
+      image_url: newItem.image || "/default.jpg",
       status: newItem.status,
     };
 
@@ -76,7 +101,7 @@ const Add = () => {
       alert("Error reaching server.");
     }
 
-    // Reset form fields
+    // Reset form
     setNewItem({
       name: "",
       category: "",
@@ -174,8 +199,9 @@ const Add = () => {
         {/* IMAGE UPLOAD */}
         <div className="image-upload">
           <button type="button" onClick={handleImageClick}>
-            Upload Image
+            {uploading ? "Uploading..." : "Upload Image"}
           </button>
+
           <input
             type="file"
             accept="image/*"
@@ -189,7 +215,7 @@ const Add = () => {
           )}
         </div>
 
-        <button type="submit" className="submit-btn">
+        <button type="submit" className="submit-btn" disabled={uploading}>
           Add Item
         </button>
       </form>
