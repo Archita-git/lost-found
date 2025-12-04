@@ -86,6 +86,11 @@ def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
 
     return {"access_token": token, "token_type": "bearer"}
 
+@router.get("/user-count")
+def get_user_count(db: Session = Depends(get_db)):
+    count = db.query(User).count()
+    return {"active_users": count}
+
 
 # --------------------------
 # CURRENT USER
