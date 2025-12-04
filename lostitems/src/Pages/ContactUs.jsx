@@ -1,5 +1,5 @@
 import React from 'react'
-import './Contactus.css'
+import './ContactUs.css'
 import time from '../assets/time.png'
 import email from '../assets/email.png'
 import location from '../assets/location.png'
