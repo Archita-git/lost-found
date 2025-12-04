@@ -219,7 +219,7 @@ const Items = () => {
             <p><strong>Date:</strong> {item.date}</p>
 
             <button className="items-delete" onClick={() => deleteItem(item.id)}>
-              Delete
+              Resolve
             </button>
           </div>
         ))}
