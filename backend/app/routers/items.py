@@ -55,6 +55,7 @@ def get_item(item_id: int, db: Session = Depends(get_db)):
     return item
 
 
+
 # ---------------------- DELETE ITEM ----------------------
 @router.delete("/{item_id}")
 def delete_item(
